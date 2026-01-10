@@ -1,5 +1,8 @@
+from cProfile import label
 import re
 import getpass
+import tkinter as tk
+from tkinter import messagebox
 
 def assess_password_strength(password):
     criteria_score = 0
@@ -42,6 +45,24 @@ def assess_password_strength(password):
 
     return strength
 
-password = getpass.getpass("Enter password to assess: ")
-strength = assess_password_strength(password)
-print("Password Strength:", strength)
+#Main App Window
+app = tk.Tk()
+app.title("Password Strength Assessor")
+
+frame = tk.Frame(app, padx=20, pady=20)
+frame.pack()
+
+label = tk.Label(frame, text="Enter Password to Assess:")
+label.pack(pady=10)
+entry = tk.Entry(frame, show="*")
+entry.pack(pady=5)
+
+def check_password():
+    password = entry.get()
+    strength = assess_password_strength(password)
+    messagebox.showinfo("Password Strength", f"Password Strength: {strength}")
+
+button = tk.Button(app, text="Check Password", command=check_password)
+button.pack(pady=10)
+
+app.mainloop()
